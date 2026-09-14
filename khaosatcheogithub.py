@@ -61,48 +61,14 @@ def filla(name):
     if element is None:
         raise Exception("Không tìm thấy phần tử phù hợp với bất kỳ XPath nào.")
     element.send_keys(name)
-def tn1(ques1,stt,number_answers):
-    vitri = 1
-    my_string = []
-    radio_buttons = []
-    
-    for i in range(1, number_answers+1):
-        my_string.append(f'/html/body/div[2]/div/div/main/section/div/div/div/section/div/div/div/div/div[2]/div/div/div/div/div/label/span[2]/span/span')
-                        #/html/body/div[2]/div/div/main/section/div/div/div/section/div/div/div/div/div[2]/div/div/div/div/div/label/input
-        radio_buttons.append(WebDriverWait(driver, 10).until(
-            EC.visibility_of_all_elements_located((By.XPATH, my_string[i-1]))
-        ))
-        
-        for radio in radio_buttons[i-1]:
-            if radio.get_attribute("data-value") == ques1 or str(vitri) == ques1:
-                driver.execute_script("arguments[0].click();", radio)
-        vitri += 1
 def tn(ques1,stt,number_answers):
     vitri = 1
     my_string = []
     radio_buttons = []
     
     for i in range(1, number_answers+1):
-        my_string.append(f'/html/body/div[2]/div/div/main/div[2]/section/div/div/div/section/div/div/div/div/div[2]/div/div/div[{i}]/div/div/label/span[2]/span/span')
-                        #/html/body/div[2]/div/div/main/div[2]/section/div/div/div/section[1]/div/div/div/div/div[2]/div/div/div[2]/div/div/label/span[2]/span/span
-                        #/html/body/div[2]/div/div/main/div[2]/section/div/div/div/section/div/div/div/div/div[2]/div/div/div[1]/div/div/label/input
-        radio_buttons.append(WebDriverWait(driver, 10).until(
-            EC.visibility_of_all_elements_located((By.XPATH, my_string[i-1]))
-        ))
-        
-        for radio in radio_buttons[i-1]:
-            if radio.get_attribute("data-value") == ques1 or str(vitri) == ques1:
-                driver.execute_script("arguments[0].click();", radio)
-        vitri += 1
-def tn1(ques1,stt,number_answers):
-    vitri = 1
-    my_string = []
-    radio_buttons = []
-    
-    for i in range(1, number_answers+1):
-        my_string.append(f'/html/body/div[2]/div/div/main/div[2]/section/div/div/div/section[{stt}]/div/div/div/div/div[2]/div/div/div[{i}]/div/div/label/span[2]/span/span')
-                        #/html/body/div[2]/div/div/main/div[2]/section/div/div/div/section[1]/div/div/div/div/div[2]/div/div/div[2]/div/div/label/span[2]/span/span
-                        #/html/body/div[2]/div/div/main/div[2]/section/div/div/div/section[2]/div/div/div/div/div[2]/div/div/div[3]/div/div/label/span[2]/span/span
+        my_string.append(f'/html/body/div/div[2]/form/div[2]/div/div[2]/div[{stt+1}]/div/div/div[2]/div[1]/div/span/div/div[{i}]/label/div/div[1]/div')
+
         radio_buttons.append(WebDriverWait(driver, 10).until(
             EC.visibility_of_all_elements_located((By.XPATH, my_string[i-1]))
         ))
@@ -184,26 +150,22 @@ def hk_grid(*args, stt, colums):
     compare_values = [list(arg) for arg in args]  # Chia thành các hàng (số câu hỏi)
     rows = len(compare_values)
     vitri=1
-    k=3
+    k=2
     my_string = []
     radio_buttons = []
     for j in range(1, rows + 1):
         for i in range(1, colums +1):
             index = (j-1) * colums + (i-1)
-            my_string.append(f'/html/body/div[2]/div/div/main/section/div/div/div/section[{stt}]/div/div/div/div/div[2]/div/div/div[{k}]/div[2]/div/div/div[{i}]/div/input')
-                            #/html/body/div[2]/div/div/main/section/div/div/div/section/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div/div[5]/div/input
-                            #/html/body/div[2]/div/div/main/section/div/div/div/section[1]/div/div/div/div/div[2]/div/div/div[4]/div[2]/div/div/div[4]/div/input
-                            #cau 2 hang 1 dap an 5/html/body/div[2]/div/div/main/section/div/div/div/section[2]/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div/div[5]/div/input
-                           
+            my_string.append(f'/html/body/div/div[2]/form/div[2]/div/div[2]/div[{stt+1}]/div/div/div[2]/div/div[1]/div/div[{k}]/span/div[{i+1}]/div/div')
             radio_buttons.append(WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, my_string[index])))) #lấy xpath ô trắc nghiệm 1
             for radio in radio_buttons[index]:
                 for value in compare_values[j-1]:
-                    if  str(vitri) == value:
+                    if radio.get_attribute("data-value") == value  or str(vitri) == value:
                         driver.execute_script("arguments[0].click();", radio)
                         break
             vitri=vitri+1                        
         vitri=1
-        k=k+1
+        k=k+2
 def hk_luoi(*args, stt, rows, colums):
     compare_values = [list(args[i:i + colums]) for i in range(0, len(args), colums)]  # Chia thành các hàng
     vitri = 1
@@ -235,8 +197,6 @@ def fill_form(name,stt):
 
 def tracnghiem(ques1, stt, number_answers):
     tn(ques1,stt,number_answers)
-def tracnghiem1(ques1, stt, number_answers):
-    tn1(ques1,stt,number_answers)
 def menuthaxuong(ques1, stt, number_answers):
     mntx(ques1,stt,number_answers)
 
