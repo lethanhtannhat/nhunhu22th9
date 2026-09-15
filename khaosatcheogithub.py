@@ -14,7 +14,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")
+options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
@@ -275,7 +275,7 @@ def hk_grid2(*args,stt, colums):
             except Exception as e:
                 print(f" {e}")  
 def luoitracnghiem(*args, stt, colums):
-    hk_grid1(*args, stt=stt, colums=colums)
+    hk_grid(*args, stt=stt, colums=colums)
 def luoitracnghiem2(*args, stt, colums):
     hk_grid2(*args, stt=stt, colums=colums)
 def luoihopkiem(*args, stt, rows, colums):
